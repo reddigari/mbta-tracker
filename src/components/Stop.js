@@ -22,7 +22,7 @@ export class StopNav extends Component {
                 <Stop key={stop.id} 
                       stop={stop.attributes}
                       stopId={stop.id}
-                      onClick={() => this.props.onClick(stop.id)}
+                      onClick={() => this.props.onClick(stop.id, stop.attributes.name)}
                 />
             ))}
             </div>

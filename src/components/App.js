@@ -24,6 +24,7 @@ class App extends Component {
             stops: [],
             routeId: null,
             stopId: null,
+            stopName: null,
             arrivals: []
         }
 
@@ -104,9 +105,10 @@ class App extends Component {
         });
     }
 
-    handleStopClick(stopId) {
+    handleStopClick(stopId, stopName) {
         this.setState({
-            stopId: stopId
+            stopId: stopId,
+            stopName: stopName
         });
     }
 
@@ -127,6 +129,7 @@ class App extends Component {
                 />
                 <hr />
                 <ArrivalTable 
+                    stopName={this.state.stopName}
                     arrivals={this.state.arrivals}
                     directions={this.state.directions}     
                 />

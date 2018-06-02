@@ -26,6 +26,9 @@ export class ArrivalTable extends Component {
 
         return (
             <div className="row justify-content-center">
+                <div className="col-12 text-center">
+                    <h3>{this.props.stopName}</h3>
+                </div>
                 <div className="col-md-6">
                     <table className="table">
                         <thead>
