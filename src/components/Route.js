@@ -6,7 +6,9 @@ const style = {
 
 export class Route extends Component {
     render() {
-        const name = this.props.route.long_name || this.props.route.short_name;
+        const routeDesc = this.props.route.description;
+        const name = (routeDesc.includes("Bus") || routeDesc.includes("Limited")) ?
+            this.props.route.short_name : this.props.route.long_name;
         const color = "#" + this.props.route.color;
         return (
             <button onClick={this.props.onClick}
