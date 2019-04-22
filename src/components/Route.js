@@ -1,39 +1,38 @@
 import React, { Component } from 'react';
+import Select from 'react-select';
 
-const style = {
-    color: 'white',
-}
-
-export class Route extends Component {
-    render() {
-        const routeDesc = this.props.route.description;
-        const name = (routeDesc.includes("Bus") || routeDesc.includes("Limited")) ?
-            this.props.route.short_name : this.props.route.long_name;
-        const color = "#" + this.props.route.color;
-        return (
-            <button onClick={this.props.onClick}
-                    style={{...style, backgroundColor: color}}
-                    className="btn btnRoute mx-1 my-1">
-                {name}
-            </button>
-        )
-    }
-}
 
 export class RouteNav extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { route: null };
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange = (selectedOption) => {
+        this.setState({ route: selectedOption });
+        this.props.onChange(selectedOption.id);
+    }
+
     render() {
-        if (this.props.routes.length === 0) {
-            return ( <div /> )
+        if (!this.props.routes.length) {
+            return <div />;
+        }
+
+        function getName(route) {
+            console.log(route);
+            const desc = route.attributes.description;
+            return desc.includes("Bus") || desc.includes("Limited") ?
+                route.attributes.short_name : route.attributes.long_name;
         }
 
         return (
-            <div className="row justify-content-center">
-                {this.props.routes.map((route) => (
-                    <Route key={route.id} 
-                           route={route.attributes}
-                           routeId={route.id}
-                           onClick={() => this.props.onClick(route.id)} />
-                ))}
+            <div className="col-md-4">
+                <Select options={this.props.routes} onChange={this.handleChange}
+                        value={this.state.route}
+                        getOptionValue={r => r.id}
+                        getOptionLabel={r => getName(r)}
+                        isSearchable={true} isClearable={true} />
             </div>
         )
     }

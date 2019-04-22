@@ -32,8 +32,8 @@ class App extends Component {
         this.getStops = this.getStops.bind(this);
         this.getArrivals = this.getArrivals.bind(this);
         this.handleTransitClick = this.handleTransitClick.bind(this);
-        this.handleRouteClick = this.handleRouteClick.bind(this);
-        this.handleStopClick = this.handleStopClick.bind(this);
+        this.handleRouteChange = this.handleRouteChange.bind(this);
+        this.handleStopChange = this.handleStopChange.bind(this);
     }
 
     componentDidMount() {
@@ -91,13 +91,14 @@ class App extends Component {
         this.setState({
             transit: typeVal,
             stops: [],
+            routeId: null,
             stopId: null,
             arrivals: []
 
         });
     }
 
-    handleRouteClick(routeId) {
+    handleRouteChange(routeId) {
         this.setState({
             routeId: routeId,
             stopId: null,
@@ -105,7 +106,7 @@ class App extends Component {
         });
     }
 
-    handleStopClick(stopId, stopName) {
+    handleStopChange(stopId, stopName) {
         this.setState({
             stopId: stopId,
             stopName: stopName
@@ -118,15 +119,17 @@ class App extends Component {
                 <h1 style={{textAlign: 'center'}}>MBTA</h1>
                 <TransitNav onClick={this.handleTransitClick}/>
                 <hr />
-                <RouteNav
-                    routes={this.state.routes}
-                    onClick={this.handleRouteClick}
-                />
-                <hr />
-                <StopNav
-                    stops={this.state.stops}
-                    onClick={this.handleStopClick}
-                />
+                <div className="row justify-content-center">
+                    <RouteNav
+                        routeId={this.state.routeId}
+                        routes={this.state.routes}
+                        onChange={this.handleRouteChange}
+                    />
+                    <StopNav
+                        stops={this.state.stops}
+                        onChange={this.handleStopChange}
+                    />
+                </div>
                 <hr />
                 <ArrivalTable 
                     stopName={this.state.stopName}

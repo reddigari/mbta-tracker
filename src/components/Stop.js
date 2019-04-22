@@ -1,30 +1,28 @@
 import React, { Component } from 'react';
-
-export class Stop extends Component {
-    render() {
-        return (
-            <button onClick={this.props.onClick}
-                    className="btn mx-1 my-1">
-                {this.props.stop.name}</button>
-        )
-    }
-}
+import Select from 'react-select';
 
 export class StopNav extends Component {
-    render() {
-        if (this.props.stops.length === 0) {
-            return ( <div /> )
-        }
+    constructor(props) {
+        super(props);
+        this.state = { stop: null };
+        this.handleChange = this.handleChange.bind(this);
+    }
 
+    handleChange = (selectedOption) => {
+        this.setState({ stop: selectedOption });
+        this.props.onChange(selectedOption.id, selectedOption.attributes.name);
+    }
+    render() {
+        if (!this.props.stops.length) {
+            return <div />;
+        }
         return (
-            <div className="row justify-content-center">
-            {this.props.stops.map((stop) => (
-                <Stop key={stop.id} 
-                      stop={stop.attributes}
-                      stopId={stop.id}
-                      onClick={() => this.props.onClick(stop.id, stop.attributes.name)}
-                />
-            ))}
+            <div className="col-md-4">
+                <Select options={this.props.stops} onChange={this.handleChange}
+                        value={this.state.stop}
+                        getOptionValue={s => s.id}
+                        getOptionLabel={s => s.attributes.name}
+                        isSearchable={true} isClearable={true} />
             </div>
         )
     }
